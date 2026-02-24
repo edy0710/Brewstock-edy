@@ -7,141 +7,141 @@
     <style>
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .stat-card {
-            background: white;
+            background: #f5f5f0;
             padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #6b8659;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 2px solid #8fbc8f;
+            text-align: center;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .stat-card h3 {
-            color: #666;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #5a7248;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            margin-top: 15px;
         }
 
-        .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #6b8659;
+        /* Anillo circular */
+        .donut-chart {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: conic-gradient(#5a7248 0deg 270deg, #d4d4c8 270deg 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .stat-card .subtitle {
-            font-size: 12px;
-            color: #999;
-            margin-top: 8px;
+        .donut-chart::after {
+            content: '';
+            width: 60px;
+            height: 60px;
+            background: #f5f5f0;
+            border-radius: 50%;
+        }
+
+        /* Círculo sólido */
+        .solid-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #5a7248;
         }
 
         .content-row {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1fr;
             gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        @media (max-width: 1200px) {
-            .content-row {
-                grid-template-columns: 1fr;
-            }
+            margin-bottom: 20px;
         }
 
         .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: #f5f5f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             padding: 0;
-            border: none;
+            border: 2px solid #8fbc8f;
         }
 
         .card-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            background-color: #f8f9fa;
+            padding: 20px 25px;
+            border-bottom: none;
+            background-color: transparent;
+            text-align: center;
         }
 
         .card-header h5 {
             margin: 0;
-            color: #333;
+            color: #5a7248;
             font-weight: 600;
+            font-size: 16px;
         }
 
         .card-body {
-            padding: 20px;
+            padding: 20px 25px;
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
         }
 
         .chart-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: 20px;
+            flex: 1;
+            height: 200px;
+            max-width: 400px;
         }
 
         .best-sellers {
             list-style: none;
             padding: 0;
+            margin: 0;
+            flex: 1;
         }
 
         .best-sellers li {
             padding: 12px 0;
-            border-bottom: 1px solid #eee;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
         }
 
-        .best-sellers li:last-child {
-            border-bottom: none;
+        .seller-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: #7a8f68;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 13px;
+            flex-shrink: 0;
         }
 
         .seller-info {
             flex: 1;
+            background: #e0e0d8;
+            padding: 8px 15px;
+            border-radius: 4px;
         }
 
         .seller-name {
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 4px;
-        }
-
-        .seller-stats {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .seller-quantity {
-            background-color: #6b8659;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .badge-warning {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-
-        .badge-danger {
-            background-color: #f8d7da;
-            color: #721c24;
+            font-weight: 400;
+            color: #5a7248;
+            font-size: 14px;
         }
 
         .no-data {
@@ -151,16 +151,25 @@
         }
 
         .empty-circle {
-            width: 120px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background-color: #f8f9fa;
-            margin: 0 auto 20px;
+            background-color: #e0e0d8;
+            margin: 0 auto 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            color: #ddd;
+            font-size: 32px;
+            color: #5a7248;
+        }
+
+        .bottom-card {
+            background: #f5f5f0;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            min-height: 150px;
+            border: 2px solid #8fbc8f;
         }
     </style>
 @endsection
@@ -169,43 +178,33 @@
     <!-- Stats Cards -->
     <div class="dashboard-grid">
         <div class="stat-card">
-            <h3>Productos Más Vendidos</h3>
-            <div class="value">{{ $bestSellingProducts->count() }}</div>
-            <div class="subtitle">en el último período</div>
+            <div class="donut-chart"></div>
+            <h3>Productos más vendidos</h3>
         </div>
 
         <div class="stat-card">
-            <h3>Ventas de Hoy</h3>
-            <div class="value">${{ number_format($todaySales, 2) }}</div>
-            <div class="subtitle">ingresos totales</div>
-        </div>
-
-        <div class="stat-card">
-            <h3>Alertas Pendientes</h3>
-            <div class="value">{{ $unreadAlerts }}</div>
-            <div class="subtitle">por revisar</div>
+            <div class="solid-circle"></div>
         </div>
     </div>
 
     <!-- Main Content Row -->
     <div class="content-row">
-        <!-- Best Sellers Section -->
         <div class="card">
             <div class="card-header">
-                <h5><i class="fas fa-chart-line" style="margin-right: 10px; color: #6b8659;"></i>Productos más vendidos</h5>
+                <h5>Productos más vendidos</h5>
             </div>
             <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="salesChart"></canvas>
+                </div>
                 @if ($bestSellingProducts->count() > 0)
                     <ul class="best-sellers">
-                        @foreach ($bestSellingProducts as $product)
+                        @foreach ($bestSellingProducts->take(3) as $key => $product)
                             <li>
+                                <div class="seller-number">{{ $key + 1 }}</div>
                                 <div class="seller-info">
                                     <div class="seller-name">{{ $product->name }}</div>
-                                    <div class="seller-stats">
-                                        {{ number_format($product->total_quantity, 0) }} unidades • ${{ number_format($product->total_sales, 2) }}
-                                    </div>
                                 </div>
-                                <span class="seller-quantity">{{ $product->total_quantity }}</span>
                             </li>
                         @endforeach
                     </ul>
@@ -219,72 +218,62 @@
                 @endif
             </div>
         </div>
-
-        <!-- Sidebar Stats -->
-        <div>
-            <div class="card" style="margin-bottom: 20px;">
-                <div class="card-header">
-                    <h5><i class="fas fa-bell" style="margin-right: 10px; color: #6b8659;"></i>Alertas Recientes</h5>
-                </div>
-                <div class="card-body">
-                    <div style="text-align: center; color: #999; padding: 30px 20px;">
-                        <i class="fas fa-check-circle" style="font-size: 40px; color: #ddd; margin-bottom: 10px;"></i>
-                        <p>No hay alertas pendientes</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Latest Sales -->
-    <div class="card">
-        <div class="card-header">
-            <h5><i class="fas fa-history" style="margin-right: 10px; color: #6b8659;"></i>Últimas Ventas</h5>
-        </div>
-        <div class="card-body">
-            @if ($latestSales->count() > 0)
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr style="background-color: #f8f9fa;">
-                                <th style="color: #666;">Fecha</th>
-                                <th style="color: #666;">Usuario</th>
-                                <th style="color: #666;">Productos</th>
-                                <th style="color: #666;" class="text-end">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($latestSales as $sale)
-                                <tr>
-                                    <td style="font-size: 13px;">
-                                        {{ $sale->sale_date->format('d/m/Y H:i') }}
-                                    </td>
-                                    <td style="font-size: 13px;">
-                                        {{ $sale->user->name ?? 'N/A' }}
-                                    </td>
-                                    <td style="font-size: 13px;">
-                                        {{ $sale->items->count() }} producto(s)
-                                    </td>
-                                    <td style="font-size: 13px; font-weight: 600; color: #6b8659; text-align: right;">
-                                        ${{ number_format($sale->total, 2) }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @else
-                <div class="no-data">
-                    <p>No hay ventas registradas</p>
-                </div>
-            @endif
-        </div>
+    <!-- Bottom Card -->
+    <div class="bottom-card">
     </div>
 @endsection
 
 @section('scripts')
     <script>
-        // Aquí se pueden agregar gráficos con Chart.js si es necesario
-        // Por ahora, el dashboard muestra la información de forma clara
+        // Chart.js configuration for sales chart
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($bestSellingProducts->take(6)->pluck('name')->toArray()),
+                datasets: [{
+                    data: @json($bestSellingProducts->take(6)->pluck('total_quantity')->toArray()),
+                    backgroundColor: '#5a7248',
+                    borderColor: '#5a7248',
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            display: false
+                        },
+                        border: {
+                            display: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            display: false
+                        },
+                        border: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
     </script>
 @endsection

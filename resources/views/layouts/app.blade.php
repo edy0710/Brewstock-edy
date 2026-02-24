@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f5f7f4;
         }
 
         .container-fluid {
@@ -26,9 +26,9 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background-color: #5a7248;
+            background-color: #4a5d3a;
             color: white;
-            padding: 20px 0;
+            padding: 0 0 20px 0;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
@@ -40,12 +40,15 @@
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 20px;
+            background-color: white;
         }
 
         .sidebar-header h2 {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
             margin: 0;
+            color: white;
+            text-transform: lowercase;
         }
 
         .sidebar-logo {
@@ -74,9 +77,9 @@
 
         .sidebar-menu a:hover,
         .sidebar-menu a.active {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.15);
             color: white;
-            border-left-color: #ffc107;
+            border-left-color: #8fbc8f;
         }
 
         .sidebar-menu i {
@@ -87,10 +90,25 @@
 
         .sidebar-menu .submenu {
             list-style: none;
-            padding-left: 40px;
+            padding-left: 0;
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
+            margin: 0;
+        }
+
+        .sidebar-menu .submenu li {
+            list-style: none;
+        }
+
+        .sidebar-menu .submenu a {
+            padding: 10px 20px 10px 55px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            display: block;
+            border-left: none;
         }
 
         .sidebar-menu li.active > .submenu {
@@ -102,22 +120,57 @@
             bottom: 0;
             width: 100%;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            background-color: #4a5d3a;
         }
 
-        .sidebar-footer a {
+        .user-menu-container {
+            position: relative;
+        }
+
+        .user-menu-toggle {
             display: flex;
             align-items: center;
-            color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
-            transition: color 0.3s;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        .sidebar-footer a:hover {
+        .user-menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-menu-toggle i:first-child {
+            margin-right: 10px;
+        }
+
+        .user-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .user-dropdown.show {
+            max-height: 100px;
+        }
+
+        .user-dropdown a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px 15px 55px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .user-dropdown a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
             color: white;
         }
 
-        .sidebar-footer i {
+        .user-dropdown i {
             margin-right: 10px;
         }
 
@@ -131,18 +184,19 @@
 
         /* Top Bar */
         .topbar {
-            background-color: #ffc107;
+            background-color: transparent;
             padding: 15px 30px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: none;
         }
 
         .topbar-title {
             color: #333;
             font-weight: 600;
             font-size: 18px;
+            display: none;
         }
 
         .topbar-user {
@@ -151,6 +205,7 @@
             gap: 10px;
             color: #333;
             font-size: 14px;
+            font-weight: 500;
         }
 
         .topbar-user i {
@@ -210,39 +265,31 @@
 
             <ul class="sidebar-menu">
                 <li>
-                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home"></i>
-                        <span>Inicio</span>
-                    </a>
-                </li>
-
-                <li>
                     <a href="javascript:void(0)" data-toggle="submenu" class="{{ request()->routeIs('products*') ? 'active' : '' }}">
-                        <i class="fas fa-box"></i>
+                        <i class="fas fa-shopping-bag"></i>
                         <span>Productos</span>
                         <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
                     <ul class="submenu">
-                        <li><a href="#">Listar Productos</a></li>
                         <li><a href="#">Categorías</a></li>
                     </ul>
                 </li>
 
                 <li>
                     <a href="javascript:void(0)" data-toggle="submenu" class="{{ request()->routeIs('inventory*') ? 'active' : '' }}">
-                        <i class="fas fa-warehouse"></i>
+                        <i class="fas fa-check"></i>
                         <span>Inventario</span>
                         <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
                     <ul class="submenu">
                         <li><a href="#">Ingredientes</a></li>
-                        <li><a href="#">Movimientos</a></li>
+                        <li><a href="#">Recetas</a></li>
                     </ul>
                 </li>
 
                 <li>
                     <a href="javascript:void(0)" class="{{ request()->routeIs('users*') ? 'active' : '' }}">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-user-friends"></i>
                         <span>Usuarios</span>
                     </a>
                 </li>
@@ -267,13 +314,25 @@
             </ul>
 
             <div class="sidebar-footer">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Cerrar Sesión</span>
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
+                <div class="user-menu-container" id="userMenuContainer">
+                    <a href="javascript:void(0)" class="user-menu-toggle" onclick="toggleUserMenu()">
+                        <i class="fas fa-user"></i>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 500;">{{ Auth::user()->name ?? 'Admin User' }}</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">{{ Auth::user()->email ?? '' }}</div>
+                        </div>
+                        <i class="fas fa-chevron-right" style="font-size: 12px;"></i>
+                    </a>
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
             </div>
         </nav>
 
@@ -288,7 +347,7 @@
                     <span>@yield('page_title', 'Dashboard')</span>
                 </div>
                 <div class="topbar-user">
-                    <i class="fas fa-user-circle"></i>
+                    <i class="fas fa-user-circle" style="font-size: 18px;"></i>
                     <span>{{ Auth::user()->name ?? 'Admin User' }}</span>
                 </div>
             </div>
@@ -319,6 +378,12 @@
     <script>
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // User menu toggle
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
         }
 
         // Submenu toggle

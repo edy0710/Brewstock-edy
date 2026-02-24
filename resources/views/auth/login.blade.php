@@ -41,34 +41,11 @@
 
         .login-pattern-section {
             flex: 1;
-            background: linear-gradient(135deg, #8b9d6f 0%, #a8b88f 100%);
-            position: relative;
-            overflow: hidden;
+            background-image: url('{{ asset('assets/loginimage.png') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             display: none;
-        }
-
-        .login-pattern-section::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 35px,
-                rgba(255, 255, 255, 0.1) 35px,
-                rgba(255, 255, 255, 0.1) 70px
-            );
-            animation: slidePattern 20s linear infinite;
-        }
-
-        @keyframes slidePattern {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(70px, 70px);
-            }
         }
 
         @media (min-width: 768px) {
@@ -79,25 +56,25 @@
 
         .logo {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .logo-image {
-            max-width: 100px;
+            max-width: 200px;
             height: auto;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .logo h1 {
-            color: #5a5a5a;
-            font-size: 32px;
+            color: #5a7248;
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             letter-spacing: 0.5px;
         }
 
         .logo p {
-            color: #999;
+            color: #666;
             font-size: 14px;
         }
 
@@ -117,9 +94,10 @@
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 14px;
             transition: border-color 0.3s;
+            background-color: #f8f8f8;
         }
 
         .form-group input:focus {
@@ -130,20 +108,20 @@
 
         .login-btn {
             width: 100%;
-            padding: 12px 15px;
-            background-color: #6b8659;
+            padding: 14px 15px;
+            background-color: #5a7248;
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 14px;
+            border-radius: 8px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s;
-            margin-top: 10px;
+            margin-top: 20px;
         }
 
         .login-btn:hover {
-            background-color: #5a7248;
+            background-color: #4a5d3a;
         }
 
         .login-btn:disabled {
@@ -181,33 +159,60 @@
             display: none;
             text-align: center;
             margin-top: 15px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 15px;
         }
 
         .spinner {
-            border: 3px solid rgba(107, 134, 89, 0.1);
+            border: 4px solid rgba(107, 134, 89, 0.2);
             border-radius: 50%;
-            border-top: 3px solid #6b8659;
-            width: 24px;
-            height: 24px;
+            border-top: 4px solid #5a7248;
+            width: 60px;
+            height: 60px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            position: absolute;
+        }
+
+        .spinner-inner {
+            border: 4px solid rgba(107, 134, 89, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #7a8f68;
+            width: 40px;
+            height: 40px;
+            animation: spin 1.5s linear infinite reverse;
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .form-group.loading .login-btn {
-            display: none;
+        .loading-text {
+            font-size: 14px;
+            color: #5a7248;
+            font-weight: 500;
         }
 
-        .form-group.loading .loading {
-            display: block;
+        .loading-user {
+            font-size: 16px;
+            color: #4a5d3a;
+            font-weight: 700;
+            margin-top: 5px;
         }
     </style>
 </head>
@@ -216,6 +221,7 @@
         <div class="login-form-section">
             <div class="logo">
                 <img src="{{ url('/logo.png') }}" alt="brewstock" class="logo-image">
+                <p style="color: #666; font-size: 16px; margin-top: -10px;">Admin Portal</p>
             </div>
 
             @if ($errors->any())
@@ -252,9 +258,13 @@
                 </div>
 
                 <button type="submit" class="login-btn" id="submitBtn">Iniciar Sesión</button>
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p style="font-size: 12px; margin-top: 10px; color: #666;">Iniciando Sesión ADMIN</p>
+                <div class="loading" id="loadingScreen">
+                    <div class="spinner-container">
+                        <div class="spinner"></div>
+                        <div class="spinner-inner"></div>
+                    </div>
+                    <div class="loading-text">Iniciando Sesión</div>
+                    <div class="loading-user" id="loadingUserName">ADMIN</div>
                 </div>
             </form>
         </div>
@@ -264,10 +274,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function() {
-            const formGroup = document.querySelector('.form-group:last-of-type');
-            formGroup.classList.add('loading');
-            document.getElementById('submitBtn').disabled = true;
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('email');
+            const userName = emailInput.value.split('@')[0] || 'ADMIN';
+            document.getElementById('loadingUserName').textContent = userName.toUpperCase();
+            
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('loadingScreen').classList.add('show');
+            
+            setTimeout(() => {
+                this.submit();
+            }, 1500);
         });
     </script>
 </body>
