@@ -48,6 +48,12 @@
             margin: 0;
         }
 
+        .sidebar-logo {
+            max-width: 120px;
+            height: auto;
+            display: block;
+        }
+
         .sidebar-menu {
             list-style: none;
         }
@@ -199,7 +205,7 @@
         <!-- Sidebar -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>brewstock</h2>
+                <img src="{{ url('/logo.png') }}" alt="brewstock" class="sidebar-logo">
             </div>
 
             <ul class="sidebar-menu">

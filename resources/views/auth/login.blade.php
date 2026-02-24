@@ -82,6 +82,12 @@
             margin-bottom: 40px;
         }
 
+        .logo-image {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
         .logo h1 {
             color: #5a5a5a;
             font-size: 32px;
@@ -209,8 +215,7 @@
     <div class="login-container">
         <div class="login-form-section">
             <div class="logo">
-                <h1>brewstock</h1>
-                <p>Admin Portal</p>
+                <img src="{{ url('/logo.png') }}" alt="brewstock" class="logo-image">
             </div>
 
             @if ($errors->any())
