@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\AlertsController;
 
 Route::get('/logo.png', function () {
     $candidates = [
@@ -45,6 +50,25 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Dashboard Routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Products routes
+    Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+    Route::get('/products/categories', [ProductsController::class, 'categories'])->name('products.categories');
+    
+    // Inventory routes
+    Route::get('/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/ingredients', [InventoryController::class, 'ingredients'])->name('inventory.ingredients');
+    Route::get('/inventory/recipes', [InventoryController::class, 'recipes'])->name('inventory.recipes');
+    
+    // Users routes
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    
+    // Sales routes
+    Route::get('/sales', [SalesController::class, 'index'])->name('sales.index');
+    
+    // Alerts routes
+    Route::get('/alerts', [AlertsController::class, 'index'])->name('alerts.index');
+    Route::get('/alerts/settings', [AlertsController::class, 'settings'])->name('alerts.settings');
 });
 
 // Redirect root to dashboard if authenticated, otherwise to login

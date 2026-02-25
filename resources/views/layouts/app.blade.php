@@ -271,7 +271,8 @@
                         <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
                     <ul class="submenu">
-                        <li><a href="#">Categorías</a></li>
+                        <li><a href="{{ route('products.index') }}">Productos</a></li>
+                        <li><a href="{{ route('products.categories') }}">Categorías</a></li>
                     </ul>
                 </li>
 
@@ -282,20 +283,21 @@
                         <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
                     <ul class="submenu">
-                        <li><a href="#">Ingredientes</a></li>
-                        <li><a href="#">Recetas</a></li>
+                        <li><a href="{{ route('inventory.index') }}">Inventario</a></li>
+                        <li><a href="{{ route('inventory.ingredients') }}">Ingredientes</a></li>
+                        <li><a href="{{ route('inventory.recipes') }}">Recetas</a></li>
                     </ul>
                 </li>
 
                 <li>
-                    <a href="javascript:void(0)" class="{{ request()->routeIs('users*') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}" class="{{ request()->routeIs('users*') ? 'active' : '' }}">
                         <i class="fas fa-user-friends"></i>
                         <span>Usuarios</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="javascript:void(0)" class="{{ request()->routeIs('sales*') ? 'active' : '' }}">
+                    <a href="{{ route('sales.index') }}" class="{{ request()->routeIs('sales*') ? 'active' : '' }}">
                         <i class="fas fa-chart-bar"></i>
                         <span>Ventas</span>
                     </a>
@@ -308,7 +310,8 @@
                         <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
                     <ul class="submenu">
-                        <li><a href="#">Configuración</a></li>
+                        <li><a href="{{ route('alerts.index') }}">Alertas</a></li>
+                        <li><a href="{{ route('alerts.settings') }}">Configuración</a></li>
                     </ul>
                 </li>
             </ul>
