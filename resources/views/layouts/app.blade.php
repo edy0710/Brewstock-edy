@@ -33,6 +33,7 @@
             height: 100vh;
             overflow-y: auto;
             z-index: 1000;
+            top: 0;
         }
 
         .sidebar-header {
@@ -52,7 +53,7 @@
         }
 
         .sidebar-logo {
-            max-width: 120px;
+            max-width: 200px;
             height: auto;
             display: block;
         }
@@ -93,7 +94,7 @@
             padding-left: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.35s ease-out;
             margin: 0;
         }
 
@@ -148,7 +149,7 @@
         .user-dropdown {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.25s ease-in-out;
             background-color: rgba(0, 0, 0, 0.2);
         }
 
@@ -212,11 +213,49 @@
             margin-right: 5px;
         }
 
+        /* Top Header */
+        .top-header {
+            background-color: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            z-index: 100;
+            height: 88px; /* Altura del header aumentada para alinear con el logo */
+        }
+
+        .page-title {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-user i {
+            font-size: 18px;
+            color: #666;
+        }
+
         /* Content Area */
         .content {
             flex: 1;
-            padding: 30px;
+            padding: 20px 30px 30px 30px;
             overflow-y: auto;
+            background-color: #f8f9fa;
+            margin-top: 88px; /* Compensar la altura del header fijo */
         }
 
         /* Alerts */
@@ -260,7 +299,13 @@
         <!-- Sidebar -->
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="{{ url('/logo.png') }}" alt="brewstock" class="sidebar-logo">
+                @if(request()->routeIs('login') || request()->routeIs('dashboard'))
+                    <img src="{{ url('/logo.png') }}" alt="brewstock" class="sidebar-logo">
+                @else
+                    <a href="{{ route('dashboard') }}" style="text-decoration: none; display: block;">
+                        <img src="{{ url('/logo.png') }}" alt="brewstock" class="sidebar-logo" style="cursor: pointer;">
+                    </a>
+                @endif
             </div>
 
             <ul class="sidebar-menu">
@@ -278,7 +323,7 @@
 
                 <li>
                     <a href="javascript:void(0)" data-toggle="submenu" class="{{ request()->routeIs('inventory*') ? 'active' : '' }}">
-                        <i class="fas fa-check"></i>
+                        <img src="{{ asset('assets/create-sharp.png') }}" alt="Inventario" style="width: 20px; height: 20px; margin-right: 15px; vertical-align: middle;">
                         <span>Inventario</span>
                         <i class="fas fa-chevron-down" style="margin-left: auto; font-size: 12px;"></i>
                     </a>
@@ -341,16 +386,11 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Top Bar -->
-            <div class="topbar">
-                <div class="topbar-title">
-                    <button class="toggle-sidebar d-md-none" onclick="toggleSidebar()">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <span>@yield('page_title', 'Dashboard')</span>
-                </div>
-                <div class="topbar-user">
-                    <i class="fas fa-user-circle" style="font-size: 18px;"></i>
+            <!-- Top Header -->
+            <div class="top-header">
+                <span class="page-title">@yield('page_title', '')</span>
+                <div class="header-user">
+                    <i class="fas fa-user-circle"></i>
                     <span>{{ Auth::user()->name ?? 'Admin User' }}</span>
                 </div>
             </div>

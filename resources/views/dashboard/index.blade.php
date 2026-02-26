@@ -1,175 +1,154 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard')
-@section('page_title', 'Inicio')
 
 @section('styles')
     <style>
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .stat-card {
-            background: #f5f5f0;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            border: 2px solid #8fbc8f;
-            text-align: center;
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            background: white;
+            padding: 25px 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            border-top: 3px solid #5a7248;
         }
 
         .stat-card h3 {
-            color: #5a7248;
-            font-size: 16px;
+            color: #888;
+            font-size: 12px;
             font-weight: 600;
-            margin-bottom: 20px;
-            margin-top: 15px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Anillo circular */
-        .donut-chart {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: conic-gradient(#5a7248 0deg 270deg, #d4d4c8 270deg 360deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #5a7248;
+            margin-bottom: 5px;
+            line-height: 1;
         }
 
-        .donut-chart::after {
-            content: '';
-            width: 60px;
-            height: 60px;
-            background: #f5f5f0;
-            border-radius: 50%;
-        }
-
-        /* Círculo sólido */
-        .solid-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: #5a7248;
+        .stat-card .subtitle {
+            font-size: 12px;
+            color: #aaa;
+            margin-top: 8px;
         }
 
         .content-row {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 992px) {
+            .content-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
-            background: #f5f5f0;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            padding: 0;
-            border: 2px solid #8fbc8f;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8e8e8;
+            overflow: hidden;
         }
 
         .card-header {
-            padding: 20px 25px;
-            border-bottom: none;
-            background-color: transparent;
-            text-align: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header i {
+            color: #5a7248;
+            font-size: 16px;
         }
 
         .card-header h5 {
             margin: 0;
-            color: #5a7248;
+            color: #333;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .card-body {
-            padding: 20px 25px;
-            display: flex;
-            align-items: flex-start;
-            gap: 40px;
-        }
-
-        .chart-container {
-            flex: 1;
-            height: 200px;
-            max-width: 400px;
-        }
-
-        .best-sellers {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            flex: 1;
-        }
-
-        .best-sellers li {
-            padding: 12px 0;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .seller-number {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background-color: #7a8f68;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-
-        .seller-info {
-            flex: 1;
-            background: #e0e0d8;
-            padding: 8px 15px;
-            border-radius: 4px;
-        }
-
-        .seller-name {
-            font-weight: 400;
-            color: #5a7248;
-            font-size: 14px;
+            padding: 40px 20px;
+            min-height: 200px;
         }
 
         .no-data {
             text-align: center;
-            padding: 40px 20px;
             color: #999;
         }
 
-        .empty-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: #e0e0d8;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            color: #5a7248;
+        .no-data i {
+            font-size: 50px;
+            color: #e8e8e8;
+            margin-bottom: 15px;
+            display: block;
         }
 
-        .bottom-card {
-            background: #f5f5f0;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            padding: 30px;
-            min-height: 150px;
-            border: 2px solid #8fbc8f;
+        .no-data i.check-icon {
+            color: #7a8f68;
+        }
+
+        .no-data p {
+            font-size: 14px;
+            margin: 0;
+            color: #999;
+        }
+
+        .latest-sales-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .latest-sales-table th,
+        .latest-sales-table td {
+            padding: 12px 20px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .latest-sales-table th {
+            background-color: #f8f9fa;
+            color: #666;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+        }
+
+        .latest-sales-table td {
+            border-bottom: 1px solid #f5f5f5;
+            color: #555;
+        }
+
+        .latest-sales-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 14px;
         }
     </style>
 @endsection
@@ -178,102 +157,81 @@
     <!-- Stats Cards -->
     <div class="dashboard-grid">
         <div class="stat-card">
-            <div class="donut-chart"></div>
             <h3>Productos más vendidos</h3>
+            <div class="value">0</div>
+            <div class="subtitle">en el último período</div>
         </div>
 
         <div class="stat-card">
-            <div class="solid-circle"></div>
+            <h3>Ventas de hoy</h3>
+            <div class="value">$0.00</div>
+            <div class="subtitle">ingresos totales</div>
+        </div>
+
+        <div class="stat-card">
+            <h3>Alertas pendientes</h3>
+            <div class="value">0</div>
+            <div class="subtitle">por revisar</div>
         </div>
     </div>
 
     <!-- Main Content Row -->
     <div class="content-row">
+        <!-- Productos más vendidos -->
         <div class="card">
             <div class="card-header">
+                <i class="fas fa-chart-line"></i>
                 <h5>Productos más vendidos</h5>
             </div>
             <div class="card-body">
-                <div class="chart-container">
-                    <canvas id="salesChart"></canvas>
+                <div class="no-data">
+                    <i class="fas fa-shopping-cart"></i>
+                    <p>No hay ventas registradas aún</p>
                 </div>
-                @if ($bestSellingProducts->count() > 0)
-                    <ul class="best-sellers">
-                        @foreach ($bestSellingProducts->take(3) as $key => $product)
-                            <li>
-                                <div class="seller-number">{{ $key + 1 }}</div>
-                                <div class="seller-info">
-                                    <div class="seller-name">{{ $product->name }}</div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <div class="no-data">
-                        <div class="empty-circle">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                        <p>No hay ventas registradas aún</p>
-                    </div>
-                @endif
+            </div>
+        </div>
+
+        <!-- Alertas Recientes -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-bell"></i>
+                <h5>Alertas Recientes</h5>
+            </div>
+            <div class="card-body">
+                <div class="no-data">
+                    <i class="fas fa-check-circle check-icon"></i>
+                    <p>No hay alertas pendientes</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Card -->
-    <div class="bottom-card">
+    <!-- Últimas Ventas -->
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-history"></i>
+            <h5>Últimas Ventas</h5>
+        </div>
+        <div class="card-body" style="padding: 0;">
+            <table class="latest-sales-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Usuario</th>
+                        <th>Productos</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                No hay ventas registradas
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        // Chart.js configuration for sales chart
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        const salesChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: @json($bestSellingProducts->take(6)->pluck('name')->toArray()),
-                datasets: [{
-                    data: @json($bestSellingProducts->take(6)->pluck('total_quantity')->toArray()),
-                    backgroundColor: '#5a7248',
-                    borderColor: '#5a7248',
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            display: false
-                        },
-                        border: {
-                            display: false
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            display: false
-                        },
-                        border: {
-                            display: false
-                        }
-                    }
-                }
-            }
-        });
-    </script>
 @endsection
