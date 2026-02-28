@@ -21,10 +21,10 @@ class AdminUserSeeder extends Seeder
         ]);
 
         // Crear o actualizar el usuario administrador
-        User::firstOrCreate([
+        User::updateOrCreate([
             'email' => 'ediel.olivero0710@gmail.com'
         ], [
-            'name' => 'Eduardo Rodríguez',
+            'name' => 'Ediel Olivero',
             'password' => Hash::make('admin1234'),
             'role_id' => $adminRole->id,
         ]);

@@ -77,7 +77,7 @@
         }
 
         .logo-image {
-            max-width: 200px;
+            max-width: 250px;
             height: auto;
             margin-bottom: 10px;
         }

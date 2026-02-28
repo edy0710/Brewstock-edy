@@ -26,22 +26,35 @@
         /* Sidebar */
         .sidebar {
             width: 250px;
-            background-color: #4a5d3a;
+            background-color: transparent;
             color: white;
-            padding: 0 0 20px 0;
+            padding: 0;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            overflow-x: hidden;
             z-index: 1000;
             top: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .sidebar-header {
             padding: 20px;
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
+            margin-bottom: 0;
             background-color: white;
+        }
+
+        .sidebar-body {
+            background-color: #4a5d3a;
+            border-top-left-radius: 14px;
+            border-top-right-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
         }
 
         .sidebar-header h2 {
@@ -60,6 +73,9 @@
 
         .sidebar-menu {
             list-style: none;
+            padding-top: 20px;
+            flex: 1;
+            margin: 0;
         }
 
         .sidebar-menu li {
@@ -117,11 +133,11 @@
         }
 
         .sidebar-footer {
-            position: absolute;
-            bottom: 0;
+            position: static;
             width: 100%;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             background-color: #4a5d3a;
+            margin-top: auto;
         }
 
         .user-menu-container {
@@ -308,6 +324,7 @@
                 @endif
             </div>
 
+            <div class="sidebar-body">
             <ul class="sidebar-menu">
                 <li>
                     <a href="javascript:void(0)" data-toggle="submenu" class="{{ request()->routeIs('products*') ? 'active' : '' }}">
@@ -381,6 +398,7 @@
                         @csrf
                     </form>
                 </div>
+            </div>
             </div>
         </nav>
 
